@@ -1,7 +1,7 @@
 {
   "name": "mirror-mind",
   "private": true,
-  "homepage": "https://<your-username>.github.io/<repo-name>",
+  "homepage": "https://tianhaishun.github.io/mirror-mind",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

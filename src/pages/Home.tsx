@@ -9,7 +9,7 @@ interface Post {
   created_at: string;
   profiles: {
     username: string;
-  };
+  } | { username: string }[];
 }
 
 export default function Home() {
@@ -33,7 +33,8 @@ export default function Home() {
       if (error) {
         console.error('Error fetching posts:', error);
       } else {
-        setPosts(data || []);
+        // Supabase types can be tricky, casting to unknown then to Post[] to satisfy TS
+        setPosts((data as unknown as Post[]) || []);
       }
       setLoading(false);
     }
@@ -58,7 +59,7 @@ export default function Home() {
               {post.content.substring(0, 150)}...
             </p>
             <div className="flex justify-between items-center text-sm text-gray-500">
-              <span>By {post.profiles?.username || 'Unknown'}</span>
+              <span>By {Array.isArray(post.profiles) ? post.profiles[0]?.username : post.profiles?.username || 'Unknown'}</span>
               <span>{new Date(post.created_at).toLocaleDateString()}</span>
             </div>
           </div>
