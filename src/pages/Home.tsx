@@ -154,7 +154,7 @@ export default function Home() {
         </div>
 
         <div className="grid gap-4">
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <Link 
               to={`/post/${post.id}`} 
               key={post.id}
