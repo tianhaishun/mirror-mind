@@ -20,7 +20,14 @@ export default function Login() {
     });
 
     if (error) {
-      setError(error.message);
+      // 汉化错误信息
+      let errorMessage = error.message;
+      if (errorMessage.includes('Email not confirmed')) {
+        errorMessage = '请先前往邮箱验证您的账号（请检查垃圾邮件箱）。';
+      } else if (errorMessage.includes('Invalid login credentials')) {
+        errorMessage = '邮箱或密码错误。';
+      }
+      setError(errorMessage);
     } else {
       navigate('/');
     }
