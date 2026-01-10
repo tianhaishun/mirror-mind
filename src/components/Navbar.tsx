@@ -24,6 +24,19 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center space-x-6">
+          <Link 
+            to="/projects" 
+            className="text-mirror-text-secondary hover:text-mirror-text-primary transition-colors duration-300 text-sm font-medium"
+          >
+            项目
+          </Link>
+          <Link 
+            to="/articles" 
+            className="text-mirror-text-secondary hover:text-mirror-text-primary transition-colors duration-300 text-sm font-medium"
+          >
+            文章
+          </Link>
+
           <button
             onClick={toggleTheme}
             className="text-mirror-text-secondary hover:text-mirror-text-primary transition-colors duration-300"

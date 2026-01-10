@@ -40,7 +40,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
               placeholder="name@example.com"
             />
           </div>
@@ -51,19 +51,19 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
               placeholder="••••••••"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-black font-semibold py-3 rounded-xl hover:bg-white/90 disabled:opacity-50 transition-all duration-300 transform active:scale-[0.98]"
+            className="w-full bg-mirror-text-primary text-mirror-base font-semibold py-3 rounded-xl hover:opacity-90 disabled:opacity-50 transition-all duration-300 transform active:scale-[0.98]"
           >
             {loading ? '登录中...' : '登录'}
           </button>
           <div className="text-center text-sm text-mirror-text-secondary">
-            还没有账号？ <Link to="/register" className="text-white hover:underline decoration-1 underline-offset-4">立即注册</Link>
+            还没有账号？ <Link to="/register" className="text-mirror-text-primary hover:underline decoration-1 underline-offset-4">立即注册</Link>
           </div>
         </form>
       </div>

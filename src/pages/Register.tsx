@@ -58,7 +58,7 @@ export default function Register() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
               placeholder="怎么称呼你？"
             />
           </div>
@@ -69,7 +69,7 @@ export default function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
               placeholder="name@example.com"
             />
           </div>
@@ -81,19 +81,19 @@ export default function Register() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
               placeholder="至少6位字符"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-black font-semibold py-3 rounded-xl hover:bg-white/90 disabled:opacity-50 transition-all duration-300 transform active:scale-[0.98]"
+            className="w-full bg-mirror-text-primary text-mirror-base font-semibold py-3 rounded-xl hover:opacity-90 disabled:opacity-50 transition-all duration-300 transform active:scale-[0.98]"
           >
             {loading ? '注册中...' : '立即注册'}
           </button>
           <div className="text-center text-sm text-mirror-text-secondary">
-            已有账号？ <Link to="/login" className="text-white hover:underline decoration-1 underline-offset-4">直接登录</Link>
+            已有账号？ <Link to="/login" className="text-mirror-text-primary hover:underline decoration-1 underline-offset-4">直接登录</Link>
           </div>
         </form>
       </div>
