@@ -40,7 +40,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
               placeholder="name@example.com"
             />
           </div>
@@ -51,14 +51,14 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
+              className="w-full bg-mirror-card-bg border border-mirror-border/20 rounded-xl px-4 py-3 text-mirror-text-primary placeholder-mirror-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
               placeholder="••••••••"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-mirror-text-primary text-mirror-base font-semibold py-3 rounded-xl hover:opacity-90 disabled:opacity-50 transition-all duration-300 transform active:scale-[0.98]"
+            className="w-full bg-mirror-accent text-white font-semibold py-3 rounded-xl hover:bg-blue-600 disabled:opacity-50 transition-all duration-300 transform active:scale-[0.98] shadow-lg shadow-blue-500/20"
           >
             {loading ? '登录中...' : '登录'}
           </button>
