@@ -4,8 +4,7 @@ import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import PostDetail from '@/pages/PostDetail';
-import CreatePost from '@/pages/CreatePost';
-import EditPost from '@/pages/EditPost';
+import Editor from '@/pages/Editor';
 import Profile from '@/pages/Profile';
 import Projects from '@/pages/Projects';
 import Articles from '@/pages/Articles';
@@ -33,8 +32,8 @@ function App() {
 
           {/* Full Screen Editor Routes (No Layout) */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/post/new" element={<CreatePost />} />
-            <Route path="/post/:id/edit" element={<EditPost />} />
+            <Route path="/post/new" element={<Editor />} />
+            <Route path="/post/:id/edit" element={<Editor />} />
           </Route>
         </Routes>
       </AuthProvider>
