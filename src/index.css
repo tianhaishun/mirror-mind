@@ -93,12 +93,16 @@
 @layer components {
   /* 玻璃拟态 - 适配双模式 */
   .glass-panel {
-    @apply bg-mirror-surface/40 backdrop-blur-2xl border border-mirror-border/10 shadow-2xl;
+    @apply bg-mirror-surface/60 backdrop-blur-2xl border border-mirror-border/10 shadow-2xl;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
   
   .glass-card {
-    @apply bg-mirror-surface/40 backdrop-blur-xl border border-mirror-border/10 transition-all duration-500 ease-out;
+    @apply bg-mirror-surface/60 backdrop-blur-xl border border-mirror-border/10 transition-all duration-500 ease-out;
+  }
+  
+  .bg-mirror-card-bg {
+    @apply bg-mirror-surface/80;
   }
 
   .title-large {
