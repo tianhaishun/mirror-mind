@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Github, Twitter, Mail, Layers, BookOpen, User } from 'lucide-react';
 
 interface Post {
   id: string;
@@ -12,6 +12,31 @@ interface Post {
     username: string;
   } | { username: string }[];
 }
+
+// 模拟项目数据 (后续可接入数据库)
+const PROJECTS = [
+  {
+    id: 1,
+    title: "Neon Horizon",
+    description: "一个基于 WebGL 的赛博朋克城市生成器，探索光影与代码的边界。",
+    tags: ["WebGL", "Three.js", "React"],
+    link: "#"
+  },
+  {
+    id: 2,
+    title: "Void Editor",
+    description: "极简主义 Markdown 编辑器，专注于写作时的沉浸体验。",
+    tags: ["Electron", "TypeScript", "Rust"],
+    link: "#"
+  },
+  {
+    id: 3,
+    title: "Echo UI",
+    description: "一套受包豪斯主义启发的设计系统，强调几何与功能的统一。",
+    tags: ["Design System", "Figma", "CSS"],
+    link: "#"
+  }
+];
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -29,7 +54,8 @@ export default function Home() {
           profiles (username)
         `)
         .eq('is_published', true)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(6); // 限制显示数量
 
       if (error) {
         console.error('Error fetching posts:', error);
@@ -42,55 +68,123 @@ export default function Home() {
     fetchPosts();
   }, []);
 
-  if (loading) return <div className="flex justify-center items-center h-[50vh] text-white/50 font-sans animate-pulse">加载中...</div>;
+  if (loading) return <div className="flex justify-center items-center h-screen text-white/30 font-sans tracking-widest uppercase text-sm animate-pulse">Loading Lens...</div>;
 
   return (
-    <div className="space-y-12 animate-fade-in">
-      <header className="py-8 text-center space-y-4">
-        <h1 className="title-large text-gradient">
-          思想镜像
-        </h1>
-        <p className="text-mirror-text-secondary text-lg font-light tracking-wide">
-          捕捉数字时代的思维碎片
-        </p>
-      </header>
+    <div className="space-y-24 pb-20 animate-fade-in">
       
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post, index) => (
-          <div 
-            key={post.id} 
-            className="glass-card group relative p-8 rounded-3xl h-[340px] flex flex-col justify-between animate-slide-up hover:scale-[1.02] transition-all duration-500"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
-            <div>
-              <div className="flex justify-between items-start mb-6 opacity-60 group-hover:opacity-100 transition-opacity">
-                <span className="text-xs font-medium text-mirror-text-secondary tracking-wide">
-                  {new Date(post.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
-                </span>
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-colors duration-300">
-                  <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-45" />
+      {/* 1. 个人信息模块 - Hero Section */}
+      <section className="relative py-12 md:py-20 border-b border-white/5">
+        <div className="max-w-4xl">
+          <div className="flex items-center space-x-2 mb-6">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-xs font-mono text-white/40 uppercase tracking-widest">Available for work</span>
+          </div>
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[0.9]">
+            Visual<br/>Thinking.
+          </h1>
+          <p className="text-xl md:text-2xl text-mirror-text-secondary max-w-2xl font-light leading-relaxed mb-10">
+            我是 <span className="text-white font-medium">Justin</span>，一名游走在代码与像素之间的数字工匠。
+            我热衷于通过技术构建具有 <span className="text-white/80 italic font-serif">电影感</span> 的交互体验，捕捉数字时代的思维碎片。
+          </p>
+          
+          <div className="flex space-x-6">
+            <a href="https://github.com" target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors">
+              <Github size={24} strokeWidth={1.5} />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors">
+              <Twitter size={24} strokeWidth={1.5} />
+            </a>
+            <a href="mailto:hello@example.com" className="text-white/60 hover:text-white transition-colors">
+              <Mail size={24} strokeWidth={1.5} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. 项目展示模块 - Projects */}
+      <section className="space-y-10">
+        <div className="flex items-end justify-between">
+          <h2 className="text-sm font-mono text-white/40 uppercase tracking-widest flex items-center space-x-2">
+            <Layers size={14} />
+            <span>Selected Works</span>
+          </h2>
+          <span className="h-px flex-1 bg-white/5 mx-6"></span>
+          <Link to="#" className="text-xs text-white/40 hover:text-white transition-colors uppercase tracking-widest">View All</Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {PROJECTS.map((project, index) => (
+            <div 
+              key={project.id}
+              className="group relative h-[400px] bg-[#1c1c1e] rounded-sm overflow-hidden border border-white/5 hover:border-white/20 transition-all duration-500"
+              style={{ animationDelay: `${index * 150}ms` }}
+            >
+              {/* 模拟项目封面 - 实际上可以使用图片 */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90 z-10"></div>
+              <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-colors duration-500"></div>
+              
+              <div className="absolute bottom-0 left-0 p-8 z-20 w-full">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tags.map(tag => (
+                    <span key={tag} className="px-2 py-1 text-[10px] uppercase tracking-wider border border-white/20 text-white/60 rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2 group-hover:translate-x-2 transition-transform duration-500">{project.title}</h3>
+                <p className="text-white/50 text-sm line-clamp-2 mb-6">{project.description}</p>
+                <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/60 group-hover:bg-white group-hover:text-black group-hover:border-transparent transition-all duration-300">
+                  <ArrowUpRight size={14} />
                 </div>
               </div>
-              
-              <h2 className="title-medium text-2xl mb-4 text-mirror-text-primary leading-tight line-clamp-2">
-                <Link to={`/post/${post.id}`} className="before:absolute before:inset-0">
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. 文章列表模块 - Articles */}
+      <section className="space-y-10">
+        <div className="flex items-end justify-between">
+          <h2 className="text-sm font-mono text-white/40 uppercase tracking-widest flex items-center space-x-2">
+            <BookOpen size={14} />
+            <span>Latest Thoughts</span>
+          </h2>
+          <span className="h-px flex-1 bg-white/5 mx-6"></span>
+          <Link to="#" className="text-xs text-white/40 hover:text-white transition-colors uppercase tracking-widest">Archive</Link>
+        </div>
+
+        <div className="grid gap-4">
+          {posts.map((post, index) => (
+            <Link 
+              to={`/post/${post.id}`} 
+              key={post.id}
+              className="group flex flex-col md:flex-row items-baseline justify-between py-6 border-b border-white/5 hover:bg-white/[0.02] transition-colors duration-300 px-4 -mx-4 rounded-lg"
+            >
+              <div className="md:w-1/4 mb-2 md:mb-0">
+                <span className="font-mono text-xs text-white/30 group-hover:text-white/60 transition-colors">
+                  {new Date(post.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.')}
+                </span>
+              </div>
+              <div className="md:w-1/2 mb-2 md:mb-0">
+                <h3 className="text-xl font-medium text-white/90 group-hover:text-white transition-colors leading-snug">
                   {post.title}
-                </Link>
-              </h2>
-              <p className="text-mirror-text-secondary line-clamp-3 leading-relaxed text-sm">
-                {post.content.substring(0, 150)}...
-              </p>
-            </div>
-            
-            <div className="pt-6 border-t border-white/5 flex items-center space-x-2">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 opacity-80"></div>
-              <span className="text-xs font-medium text-mirror-text-secondary">
-                 {Array.isArray(post.profiles) ? post.profiles[0]?.username : post.profiles?.username || '匿名'}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
+                </h3>
+                <p className="text-white/40 text-sm mt-2 line-clamp-1 font-light">
+                  {post.content.substring(0, 100)}...
+                </p>
+              </div>
+              <div className="md:w-1/4 flex justify-end">
+                <span className="text-xs text-white/20 group-hover:text-white/80 transition-colors flex items-center space-x-1 uppercase tracking-widest">
+                  <span>Read</span>
+                  <ArrowUpRight size={10} />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
     </div>
   );
 }
