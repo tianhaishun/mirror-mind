@@ -88,9 +88,9 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-mirror-accent text-white font-semibold py-3 rounded-xl hover:bg-blue-600 disabled:opacity-50 transition-all duration-300 transform active:scale-[0.98] shadow-lg shadow-blue-500/20"
+            className="w-full bg-mirror-text-primary text-mirror-base font-medium py-3 rounded-none border border-mirror-border hover:bg-transparent hover:text-mirror-text-primary transition-all duration-500 tracking-widest uppercase text-sm disabled:opacity-50"
           >
-            {loading ? '注册中...' : '立即注册'}
+            {loading ? 'Processing...' : 'JOIN NETWORK'}
           </button>
           <div className="text-center text-sm text-mirror-text-secondary">
             已有账号？ <Link to="/login" className="text-mirror-text-primary hover:underline decoration-1 underline-offset-4">直接登录</Link>
