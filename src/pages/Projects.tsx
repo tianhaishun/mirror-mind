@@ -1,38 +1,40 @@
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 import { ArrowUpRight } from 'lucide-react';
 
-// 模拟项目数据 (这里复用 Home 的数据，实际开发中可以抽离到单独的数据文件或数据库)
-const PROJECTS = [
-  {
-    id: 1,
-    title: "Neon Horizon",
-    description: "一个基于 WebGL 的赛博朋克城市生成器，探索光影与代码的边界。",
-    tags: ["WebGL", "Three.js", "React"],
-    image: "bg-gradient-to-br from-purple-900 to-blue-900"
-  },
-  {
-    id: 2,
-    title: "Void Editor",
-    description: "极简主义 Markdown 编辑器，专注于写作时的沉浸体验。",
-    tags: ["Electron", "TypeScript", "Rust"],
-    image: "bg-gradient-to-br from-gray-900 to-black"
-  },
-  {
-    id: 3,
-    title: "Echo UI",
-    description: "一套受包豪斯主义启发的设计系统，强调几何与功能的统一。",
-    tags: ["Design System", "Figma", "CSS"],
-    image: "bg-gradient-to-br from-orange-900 to-red-900"
-  },
-  {
-    id: 4,
-    title: "Data Pulse",
-    description: "实时数据可视化大屏，捕捉信息的流动。",
-    tags: ["D3.js", "Vue", "WebSocket"],
-    image: "bg-gradient-to-br from-green-900 to-teal-900"
-  }
-];
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image_url: string;
+  link: string;
+  tags: string[];
+}
 
 export default function Projects() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching projects:', error);
+      } else {
+        setProjects(data || []);
+      }
+      setLoading(false);
+    }
+
+    fetchProjects();
+  }, []);
+
+  if (loading) return <div className="flex justify-center items-center h-[50vh] text-mirror-text-secondary font-sans animate-pulse">加载中...</div>;
+
   return (
     <div className="space-y-12 animate-fade-in">
       <header className="space-y-4">
@@ -42,41 +44,52 @@ export default function Projects() {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {PROJECTS.map((project, index) => (
-          <div 
-            key={project.id}
-            className="group relative h-[400px] bg-mirror-surface/50 rounded-lg overflow-hidden border border-mirror-border/10 hover:border-mirror-border/30 transition-all duration-700"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
-            {/* 模拟封面图 */}
-            <div className={`absolute inset-0 ${project.image} opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-1000 ease-out`}></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-mirror-base via-mirror-base/50 to-transparent"></div>
-            
-            <div className="absolute inset-0 p-8 flex flex-col justify-end">
-              <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                <div className="flex flex-wrap gap-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                  {project.tags.map(tag => (
-                    <span key={tag} className="px-2 py-1 text-[10px] uppercase tracking-wider border border-mirror-border/20 text-mirror-text-primary/60 rounded-full bg-mirror-base/20 backdrop-blur-sm">
-                      {tag}
-                    </span>
-                  ))}
+      {projects.length === 0 ? (
+         <div className="text-mirror-text-secondary text-center py-20 border border-mirror-border/10 rounded-lg bg-mirror-surface/30">
+           <p>暂无项目展示</p>
+         </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <div 
+              key={project.id}
+              className="group relative h-[400px] bg-mirror-surface/50 rounded-none overflow-hidden border border-mirror-border/10 hover:border-mirror-border/30 transition-all duration-700"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {/* 封面图 */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-1000 ease-out"
+                style={{ backgroundImage: `url(${project.image_url || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop'})` }}
+              ></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-mirror-base via-mirror-base/50 to-transparent"></div>
+              
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                  <div className="flex flex-wrap gap-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                    {project.tags?.map(tag => (
+                      <span key={tag} className="px-2 py-1 text-[10px] uppercase tracking-wider border border-mirror-border/20 text-mirror-text-primary/60 rounded-full bg-mirror-base/20 backdrop-blur-sm">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <h2 className="text-3xl font-bold text-mirror-text-primary mb-3">{project.title}</h2>
+                  <p className="text-mirror-text-secondary/80 line-clamp-2 mb-6 max-w-md group-hover:text-mirror-text-primary/90 transition-colors">
+                    {project.description}
+                  </p>
+                  
+                  {project.link && (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center space-x-2 text-sm uppercase tracking-widest text-mirror-text-primary hover:text-mirror-accent transition-colors">
+                      <span>View Project</span>
+                      <ArrowUpRight size={14} />
+                    </a>
+                  )}
                 </div>
-                
-                <h2 className="text-3xl font-bold text-mirror-text-primary mb-3">{project.title}</h2>
-                <p className="text-mirror-text-secondary/80 line-clamp-2 mb-6 max-w-md group-hover:text-mirror-text-primary/90 transition-colors">
-                  {project.description}
-                </p>
-                
-                <a href="#" className="inline-flex items-center space-x-2 text-sm uppercase tracking-widest text-mirror-text-primary hover:text-mirror-accent transition-colors">
-                  <span>View Project</span>
-                  <ArrowUpRight size={14} />
-                </a>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
