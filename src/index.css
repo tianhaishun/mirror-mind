@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  
+  body {
+    @apply bg-mirror-base text-mirror-text-primary antialiased font-sans selection:bg-mirror-text-accent selection:text-white;
+    /* Apple-like smoothness */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom Scrollbar - Minimalist */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-mirror-base;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-mirror-surface rounded-full border-2 border-mirror-base hover:bg-mirror-text-secondary transition-colors;
+  }
+}
+
+@layer components {
+  /* Vision Pro Glass Material */
+  .glass-panel {
+    @apply bg-mirror-glass backdrop-blur-3xl border border-mirror-border shadow-2xl;
+  }
+  
+  .glass-card {
+    @apply bg-[#1c1c1e]/60 backdrop-blur-xl border border-white/5 hover:bg-[#1c1c1e]/80 transition-all duration-300;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-white via-mirror-text-primary to-mirror-text-secondary;
+  }
+
+  /* Typography Utilities */
+  .title-large {
+    @apply text-5xl md:text-7xl font-semibold tracking-tight leading-tight;
+  }
+  
+  .title-medium {
+    @apply text-3xl md:text-4xl font-semibold tracking-tight;
+  }
+}

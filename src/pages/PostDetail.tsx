@@ -50,41 +50,52 @@ export default function PostDetail() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (!post) return <div>Post not found</div>;
+  if (loading) return <div className="flex justify-center items-center h-[50vh] text-white/50 font-sans animate-pulse">加载中...</div>;
+  if (!post) return <div className="text-center text-white/50 mt-20">未找到文章</div>;
 
   const isAuthor = user?.id === post.user_id;
 
   return (
-    <article className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-4 text-gray-900">{post.title}</h1>
-        <div className="flex justify-between items-center text-gray-500 border-b pb-4">
-          <div className="flex items-center space-x-2">
-            <span>By {post.profiles?.username}</span>
-            <span>•</span>
-            <span>{new Date(post.created_at).toLocaleDateString()}</span>
-          </div>
-          {isAuthor && (
-            <div className="flex space-x-2">
-              <Link
-                to={`/post/${post.id}/edit`}
-                className="p-2 text-blue-600 hover:bg-blue-50 rounded"
-              >
-                <Edit size={20} />
-              </Link>
-              <button
-                onClick={handleDelete}
-                className="p-2 text-red-600 hover:bg-red-50 rounded"
-              >
-                <Trash2 size={20} />
-              </button>
-            </div>
-          )}
+    <article className="max-w-3xl mx-auto animate-fade-in">
+      <header className="mb-12 text-center">
+        <div className="flex justify-center items-center space-x-2 text-mirror-text-secondary text-sm mb-6 tracking-wide uppercase">
+          <span className="font-medium text-mirror-text-primary">
+            {Array.isArray(post.profiles) ? post.profiles[0]?.username : post.profiles?.username}
+          </span>
+          <span className="w-1 h-1 bg-white/30 rounded-full"></span>
+          <span>{new Date(post.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
         </div>
+        
+        <h1 className="text-4xl md:text-5xl font-bold mb-8 text-mirror-text-primary leading-tight tracking-tight">
+          {post.title}
+        </h1>
+
+        {isAuthor && (
+          <div className="flex justify-center space-x-4">
+            <Link
+              to={`/post/${post.id}/edit`}
+              className="flex items-center space-x-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-full text-sm text-white transition-all"
+            >
+              <Edit size={16} />
+              <span>编辑</span>
+            </Link>
+            <button
+              onClick={handleDelete}
+              className="flex items-center space-x-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-full text-sm transition-all"
+            >
+              <Trash2 size={16} />
+              <span>删除</span>
+            </button>
+          </div>
+        )}
       </header>
-      <div className="prose max-w-none whitespace-pre-wrap">
-        {post.content}
+      
+      <div className="glass-panel p-8 md:p-12 rounded-3xl">
+        <div className="prose prose-invert max-w-none prose-lg prose-p:leading-relaxed prose-headings:font-bold prose-a:text-blue-400">
+          {post.content.split('\n').map((paragraph: string, index: number) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </div>
       </div>
     </article>
   );

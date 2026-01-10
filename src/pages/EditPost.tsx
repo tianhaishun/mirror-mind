@@ -60,30 +60,30 @@ export default function EditPost() {
     setSaving(false);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="flex justify-center items-center h-[50vh] text-white/50 font-sans animate-pulse">加载中...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Edit Post</h1>
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
+    <div className="max-w-2xl mx-auto animate-fade-in">
+      <h1 className="title-medium text-gradient mb-8">编辑文章</h1>
+      <form onSubmit={handleSubmit} className="space-y-6 glass-panel p-8 rounded-3xl">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Title</label>
+          <label className="block text-sm font-medium text-mirror-text-secondary mb-2">标题</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all text-lg"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Content</label>
+          <label className="block text-sm font-medium text-mirror-text-secondary mb-2">内容</label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            rows={10}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+            rows={12}
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all resize-none leading-relaxed"
           />
         </div>
         <div className="flex items-center">
@@ -92,18 +92,18 @@ export default function EditPost() {
             id="publish"
             checked={isPublished}
             onChange={(e) => setIsPublished(e.target.checked)}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-5 w-5 rounded border-gray-600 bg-white/5 text-blue-500 focus:ring-blue-500/50 focus:ring-offset-0 transition-all"
           />
-          <label htmlFor="publish" className="ml-2 block text-sm text-gray-900">
-            Published
+          <label htmlFor="publish" className="ml-3 block text-sm text-mirror-text-primary font-medium cursor-pointer select-none">
+            已发布
           </label>
         </div>
         <button
           type="submit"
           disabled={saving}
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+          className="w-full bg-white text-black font-semibold py-3 rounded-xl hover:bg-white/90 disabled:opacity-50 transition-all duration-300 transform active:scale-[0.98]"
         >
-          {saving ? 'Saving...' : 'Update Post'}
+          {saving ? '保存中...' : '更新文章'}
         </button>
       </form>
     </div>
