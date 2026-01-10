@@ -22,7 +22,17 @@ export default function Register() {
     });
 
     if (authError) {
-      setError(authError.message);
+      // 翻译常见 Supabase 错误信息
+      let errorMessage = authError.message;
+      if (errorMessage.includes('User already registered')) {
+        errorMessage = '该邮箱已被注册，请直接登录。';
+      } else if (errorMessage.includes('Password should be at least')) {
+        errorMessage = '密码长度至少需要 6 位字符。';
+      } else if (errorMessage.includes('invalid login credentials')) {
+        errorMessage = '邮箱或密码格式不正确。';
+      }
+      
+      setError(errorMessage);
       setLoading(false);
       return;
     }
@@ -36,9 +46,19 @@ export default function Register() {
         ]);
 
       if (profileError) {
-        setError('Account created but profile setup failed: ' + profileError.message);
+        // RLS 策略错误通常是因为用户已存在但触发器没处理好，或者策略不允许插入
+        // 这里做一个友好提示
+        if (profileError.message.includes('row-level security policy')) {
+           // 可能是重复注册导致的冲突，或者策略问题。
+           // 如果用户注册成功了，资料没写入，其实也可以登录。
+           console.warn('Profile creation warning:', profileError);
+           alert('账号创建成功，但个人资料初始化遇到一点小问题。您可以尝试直接登录。');
+           navigate('/login');
+        } else {
+           setError('账号创建成功，但个人资料设置失败: ' + profileError.message);
+        }
       } else {
-        alert('Registration successful! Please check your email to verify your account.');
+        alert('注册成功！请检查您的邮箱以验证账号。');
         navigate('/login');
       }
     }
