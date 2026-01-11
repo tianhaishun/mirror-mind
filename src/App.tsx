@@ -9,6 +9,7 @@ import Profile from '@/pages/Profile';
 import Projects from '@/pages/Projects';
 import Articles from '@/pages/Articles';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import Health from '@/pages/Health';
 import { AuthProvider } from '@/hooks/useAuth';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/post/:id" element={<PostDetail />} />
+            <Route path="/health" element={<Health />} />
             
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<Profile />} />
